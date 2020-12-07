@@ -10,6 +10,9 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 # for class based views
 from rest_framework.views import APIView
+# for autherntication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 # for posting gettimg list of articles
@@ -58,7 +61,8 @@ def article_detail(request, pk):
 
 # class article list
 class ArticleApiView(APIView):
-
+    authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         articles =  Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
@@ -74,7 +78,8 @@ class ArticleApiView(APIView):
 
 # class detail list
 class ArticleDetail(APIView):
-
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def get_object(self, id):
         try:
             article = Article.objects.get(id=id)
