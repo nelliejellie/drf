@@ -1,0 +1,31 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="$1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>twenty20disasters</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="author" href="humans.txt">
+    </head>
+    <body>
+        <a href="{% url 'index' %}" style="text-align: center;margin: 0px;text-decoration:none;"><h1>Twenty20Disasters</h1></a>
+        {% if request.user.is_authenticated %}
+            <div class="container">
+                <div><h3 class="register">Welcome {{request.user.username}}</h3></div>
+            </div>
+        {% else %}
+            <div class="container">
+                <div><a href="{% url 'login' %}" class="login">Login</a></div>
+                <div><a href="{% url 'register' %}" class="register">Register</a></div>
+            </div>
+        {% endif %}
+        <h5><a href="{% url 'logout' %}" class="login">Logout</a></h5>
+        <div>
+            {% block content %}
+            {% endblock %}
+        </div>
+        <script src="js/main.js"></script>
+    </body>
+</html>

@@ -10,12 +10,18 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 # for class based views
 from rest_framework.views import APIView
-# for autherntication
+# for api autherntication
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+# for website authentication
+from django.contrib.auth.decorators import login_required
+# for class based views web login
+from django.utils.decorators import method_decorator
+
 
 
 # for posting gettimg list of articles
+@login_required
 @csrf_exempt
 @api_view(['GET','POST'])
 def article_list(request):
@@ -34,6 +40,7 @@ def article_list(request):
 
 
 # for getting a particular article, delete or editing it
+@login_required
 @csrf_exempt
 @api_view(['GET','PUT','DELETE'])
 def article_detail(request, pk):
@@ -60,14 +67,18 @@ def article_detail(request, pk):
 # class based view for detail and article list
 
 # class article list
+
 class ArticleApiView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
+    @method_decorator(login_required)
     def get(self, request):
         articles =  Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
     
+    @method_decorator(login_required)
     def post(self, request):
         serializer = ArticleSerializer(data=request.data)
 
@@ -77,20 +88,25 @@ class ArticleApiView(APIView):
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 # class detail list
+
 class ArticleDetail(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
+
+    @method_decorator(login_required)
     def get_object(self, id):
         try:
             article = Article.objects.get(id=id)
         except article.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+    @method_decorator(login_required)
     def get(self, id, request):
         article = self.get_object(id)
         serializer = ArticleSerializer(article)
         return Response(serializer.data)
 
+    @method_decorator(login_required)
     def put(self, request, id):
         article = self.get_object(id)
         serializer = ArticleSerializer(article, data= request.data)
@@ -99,6 +115,7 @@ class ArticleDetail(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     
+    @method_decorator(login_required)
     def delete(self, request, id):
         article = self.get_object(id)
         article.delete()
