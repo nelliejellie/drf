@@ -1,1 +1,1 @@
-a django rest framework api
+a django rest framework api for disasters of the year 2020

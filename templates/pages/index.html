@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<p>welcome {{ request.user.username}} your token is {{token}}</p>
+    {% if token %}
+        <div class="div-with-p">
+            <p>welcome {{ request.user.username}} your token is {{token}} </p>
+        </div>
+    {% else %}
+        <div class="div-with-p">
+            <p>you dont have a token, please login to get a token </p>
+        </div>
+    {% endif %}
 <h1>Thanks for checking out our api</h1>
 {% endblock %}

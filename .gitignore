@@ -1,7 +1,7 @@
 *.log
 *.pot
 *.pyc
-venv-drf
+drf_env
 .vscode
 /media
 db.sqlite3

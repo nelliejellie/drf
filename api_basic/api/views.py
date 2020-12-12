@@ -13,15 +13,14 @@ from rest_framework.views import APIView
 # for api autherntication
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-# for website authentication
-from django.contrib.auth.decorators import login_required
-# for class based views web login
-from django.utils.decorators import method_decorator
+# importing the user model
+from django.contrib.auth.models import User
+import cloudinary
 
 
 
-# for posting gettimg list of articles
-@login_required
+
+# for posting getting list of articles
 @csrf_exempt
 @api_view(['GET','POST'])
 def article_list(request):
@@ -31,7 +30,9 @@ def article_list(request):
         return Response(serializer.data)
 
     elif  request.method == 'POST':
-        serializer = ArticleSerializer(data=request.data)
+        user = User.objects.get(pk=request.user.id)
+        article = Article(user=user)
+        serializer = ArticleSerializer(article, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -40,7 +41,6 @@ def article_list(request):
 
 
 # for getting a particular article, delete or editing it
-@login_required
 @csrf_exempt
 @api_view(['GET','PUT','DELETE'])
 def article_detail(request, pk):
@@ -72,15 +72,17 @@ class ArticleApiView(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @method_decorator(login_required)
+    
     def get(self, request):
         articles =  Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
     
-    @method_decorator(login_required)
+    
     def post(self, request):
-        serializer = ArticleSerializer(data=request.data)
+        user = User.objects.get(pk=request.user.id)
+        article = Article(user=user)
+        serializer = ArticleSerializer(article, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -93,20 +95,17 @@ class ArticleDetail(APIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-    @method_decorator(login_required)
     def get_object(self, id):
         try:
             article = Article.objects.get(id=id)
         except article.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-    @method_decorator(login_required)
     def get(self, id, request):
         article = self.get_object(id)
         serializer = ArticleSerializer(article)
         return Response(serializer.data)
 
-    @method_decorator(login_required)
     def put(self, request, id):
         article = self.get_object(id)
         serializer = ArticleSerializer(article, data= request.data)
@@ -115,7 +114,6 @@ class ArticleDetail(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     
-    @method_decorator(login_required)
     def delete(self, request, id):
         article = self.get_object(id)
         article.delete()
