@@ -13,7 +13,7 @@ class Article(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='current_user', on_delete=models.CASCADE)
     status_choices = (
         ('not selected', 'not selected'),
-        ('EndSraz', 'EndSarz'),
+        ('EndSars', 'EndSars'),
         ('Covid-19', 'Covid-19')
     )
     quote = models.TextField(max_length=500)
@@ -25,6 +25,14 @@ class Article(models.Model):
 
     def __str__(self):
         return self.author
+
+# the api endpoints 
+class Api_Urls(models.Model):
+    url_title = models.CharField(max_length=50,blank=True)
+    url = models.URLField(max_length=50)
+
+    def __str__(self):
+        return self.url_title
 
 
 # signal to delete image from cloudinary if user deletes an object

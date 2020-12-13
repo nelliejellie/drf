@@ -118,3 +118,31 @@ class ArticleDetail(APIView):
         article = self.get_object(id)
         article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# view for the first 10 objects in the api
+@csrf_exempt
+@api_view(['GET'])
+def get_ten_article_list(request):
+    if request.method == "GET":
+        article = Article.objects.all()[:10]
+        serializer = ArticleSerializer(article, many=True)
+        return Response(serializer.data)
+
+# get articles that concern endsarz alone
+@csrf_exempt
+@api_view(['GET'])
+def get_endsars(request):
+    if request.method == "GET":
+        article = Article.objects.filter(categories='EndSars')
+        serializer = ArticleSerializer(article, many=True)
+        return Response(serializer.data)
+
+# get articles that concern endsarz alone
+@csrf_exempt
+@api_view(['GET'])
+def get_covid19(request):
+    if request.method == "GET":
+        article = Article.objects.filter(categories='Covid-19')
+        serializer = ArticleSerializer(article, many=True)
+        return Response(serializer.data)
+

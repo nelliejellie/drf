@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if token %}
+    {% if user.is_authenticated %}
         <div class="div-with-p">
             <p>welcome {{ request.user.username}} your token is {{token}} </p>
         </div>
@@ -9,5 +9,33 @@
             <p>you dont have a token, please login to get a token </p>
         </div>
     {% endif %}
-<h1>Thanks for checking out our api</h1>
+    <h1>Thanks for checking out our api!!</h1>
+    <article>
+        Right here you can get all famous quotes that were altered by famous
+        personalities during the 2020 disaster(covid-19, EndSars protests), the authors, image(if any) and date they were altered
+    </article>
+    {% for fields in random_article %}
+    <div class="card-with-image">
+        <img src="{{fields.image.url}}" alt="Avatar" style="width:50%">
+        <div class="container-with-image">
+          <h4><b>{{fields.author}}</b></h4>
+          <p>{{fields.quote}}</p>
+          <b>{{fields.categories}}</b>
+        </div>
+    </div>
+    {% endfor %}
+    {% for field in  url %}
+    <div class="card">
+        <h3 class="url-card-title" style="text-align: center;color: #40A083;">{{field.url_title}}</h3>
+        <div class="card-child">
+            <ul>
+                <li><p><a href="{{field.url}}" style="text-transform: lowercase;">{{field.url_title}}</a></p></li>
+            </ul>
+        </div>
+    </div>
+    {% empty %}
+    <div class="card">
+        <h3 class="url-card-title">NO ENDPOINTS YET</h3>
+    </div>
+    {% endfor %}
 {% endblock %}

@@ -21,7 +21,11 @@
                 <div><a href="{% url 'register' %}" class="register">Register</a></div>
             </div>
         {% endif %}
-        <h5><a href="{% url 'logout' %}" class="login">Logout</a></h5>
+        {% if request.user.is_authenticated %}
+            <h5><a href="{% url 'logout' %}" class="login">Logout</a></h5>
+        {% else %}
+            <h5><a href="{% url 'logout' %}" class="login"></a></h5>
+        {% endif %}
         <div>
             {% block content %}
             {% endblock %}
