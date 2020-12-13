@@ -39,7 +39,7 @@ p{
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.6);
 	transition: 0.3s;
 	background-color: #c3c9c7;
-	margin: 10px;
+	margin-bottom: 100px;
 }
 /* Add some padding inside the card container */
 .card-child {
@@ -65,4 +65,16 @@ p{
 }
 article{
 	margin: 20px;
+}
+.footer{
+	position: fixed;
+	display: flex;
+	flex-direction: row;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color:  #40A083;
+	color: white;
+	text-align: center;
+	margin-top: 50px;
 }

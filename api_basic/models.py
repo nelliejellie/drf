@@ -30,6 +30,7 @@ class Article(models.Model):
 class Api_Urls(models.Model):
     url_title = models.CharField(max_length=50,blank=True)
     url = models.URLField(max_length=50)
+    how_to_use = models.TextField(max_length=300, blank=True)
 
     def __str__(self):
         return self.url_title

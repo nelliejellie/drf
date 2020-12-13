@@ -11,25 +11,26 @@
     {% endif %}
     <h1>Thanks for checking out our api!!</h1>
     <article>
-        Right here you can get all famous quotes that were altered by famous
-        personalities during the 2020 disaster(covid-19, EndSars protests), the authors, image(if any) and date they were altered
+        Twenty20Disasters gives you complete access to famous quotes from
+        people during the 2020 disaster(covid-19, EndSars protests), the authors and their images if any 
+        <p>Please scroll down to view all our endpoints</p>
     </article>
-    {% for fields in random_article %}
+    
     <div class="card-with-image">
-        <img src="{{fields.image.url}}" alt="Avatar" style="width:50%">
+        <img src="{{random_article.image.url}}" alt="Avatar" style="width:50%">
         <div class="container-with-image">
-          <h4><b>{{fields.author}}</b></h4>
-          <p>{{fields.quote}}</p>
-          <b>{{fields.categories}}</b>
+          <h4><b>{{random_article.author}}</b></h4>
+          <p>{{random_article.quote}}</p>
+          <b>{{random_article.categories}}</b>
         </div>
     </div>
-    {% endfor %}
+    
     {% for field in  url %}
     <div class="card">
-        <h3 class="url-card-title" style="text-align: center;color: #40A083;">{{field.url_title}}</h3>
+        <h3 class="url-card-title" style="text-align: center;color: #40A083;margin-bottom: 15px;">{{field.url_title}}</h3>
         <div class="card-child">
             <ul>
-                <li><p><a href="{{field.url}}" style="text-transform: lowercase;">{{field.url_title}}</a></p></li>
+                <li><p><a href="{{field.url}}" style="text-transform: lowercase;">{{field.url_title}} = "{{field.url}}"</a></p></li>
             </ul>
         </div>
     </div>

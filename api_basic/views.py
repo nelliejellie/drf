@@ -7,9 +7,7 @@ import random
 # Create your views here.
 def index_view(request):
     urls = Api_Urls.objects.all()
-    count_articles = Article.objects.all().count
-    print(count_articles)
-    random_article = Article.objects.filter(pk=random.randint(1,1))
+    random_article = Article.objects.last()
     if request.user.is_authenticated:
         token = Token.objects.get(user=request.user).key
         context = {
