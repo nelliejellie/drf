@@ -13,16 +13,20 @@
         <a href="{% url 'index' %}" style="text-align: center;margin: 0px;text-decoration:none;"><h1>Twenty20Disasters</h1></a>
         {% if request.user.is_authenticated %}
             <div class="container">
-                <div><h3 class="register">Welcome {{request.user.username}}</h3></div>
+                <div><h3 class="register"><a href=""> Welcome {{request.user.username}}</a></h3></div>
             </div>
         {% else %}
             <div class="container">
+                <div><a href="#card" class="endpoints">Api-Endpoints</a></div>
                 <div><a href="{% url 'login' %}" class="login">Login</a></div>
                 <div><a href="{% url 'register' %}" class="register">Register</a></div>
             </div>
         {% endif %}
         {% if request.user.is_authenticated %}
-            <h5><a href="{% url 'logout' %}" class="login">Logout</a></h5>
+            <div class="second-navbar">
+                <h5><a href="#card" class="endpoints" style="color: azure;">Api-Endpoints</a></h5>
+                <h5><a href="{% url 'logout' %}" class="login" style="color: azure;">Logout</a></h5>
+            </div>
         {% else %}
             <h5><a href="{% url 'logout' %}" class="login"></a></h5>
         {% endif %}

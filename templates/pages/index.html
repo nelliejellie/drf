@@ -15,28 +15,37 @@
         people during the 2020 disaster(covid-19, EndSars protests), the authors and their images if any 
         <p>Please scroll down to view all our endpoints</p>
     </article>
-    
-    <div class="card-with-image">
-        <img src="{{random_article.image.url}}" alt="Avatar" style="width:50%">
-        <div class="container-with-image">
-          <h4><b>{{random_article.author}}</b></h4>
-          <p>{{random_article.quote}}</p>
-          <b>{{random_article.categories}}</b>
+
+    {% for rand in random_article %}
+        <div class="card-with-image">
+            <img src="{{rand.image.url}}" alt="Avatar" style="width:50%">
+            <div class="container-with-image">
+            <h4><b>{{rand.author}}</b></h4>
+            <p>{{rand.quote}}</p>
+            <b>{{rand.categories}}</b>
+            </div>
         </div>
-    </div>
-    
-    {% for field in  url %}
-    <div class="card">
-        <h3 class="url-card-title" style="text-align: center;color: #40A083;margin-bottom: 15px;">{{field.url_title}}</h3>
-        <div class="card-child">
-            <ul>
-                <li><p><a href="{{field.url}}" style="text-transform: lowercase;">{{field.url_title}} = "{{field.url}}"</a></p></li>
-            </ul>
-        </div>
-    </div>
     {% empty %}
-    <div class="card">
-        <h3 class="url-card-title">NO ENDPOINTS YET</h3>
-    </div>
+        <div class="card-with-image">
+            <div class="container-with-image">
+            No data yet
+            </div>
+        </div>
+    {% endfor %}
+    <h1 style="text-align: center;margin-top: 20px;">ENDPOINTS</h1>
+
+    {% for field in  url %}
+        <div class="card" id="card">
+            <h3 class="url-card-title" style="text-align: center;color: #40A083;margin-bottom: 15px;">{{field.url_title}}</h3>
+            <div class="card-child">
+                <ul>
+                    <li><p><a href="{{field.url}}" style="text-transform: lowercase;">{{field.url_title}} = "{{field.url}}"</a></p></li>
+                </ul>
+            </div>
+        </div>
+    {% empty %}
+        <div class="card">
+            <h3 class="url-card-title">NO ENDPOINTS YET</h3>
+        </div>
     {% endfor %}
 {% endblock %}
